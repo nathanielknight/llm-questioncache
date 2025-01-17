@@ -51,7 +51,6 @@ def pose_to_collection():
 
         table = format.as_table(responses)
         format.print(table)
-        print(f"{sys.argv[0]} -s to send to the {question_model}")
     sys.exit(0)
 
 
@@ -79,7 +78,43 @@ def import_responses_from_stdin():
 
 
 def print_usage():
-    print("this is where the usage will go")
+    USAGE = """
+questioncache
+
+Nat Knight natknight.xyz
+
+questioncache keeps a local cache of questions and answers and lets you search it using
+embeddings or send questions to an LLM (saving the answers in the cache).
+
+usage:
+    questioncache
+    questioncache -h
+    questioncache --help
+        Print this help message and exit.
+
+    questioncache <a question>
+        Search the question cache for a relevant answer; send the question
+        to llm's default model if an answer isn't found.
+
+    questioncache -
+        Accept a question on STDIN and search the question cache for an answer;
+        send it to llm's default mode if an answer isn't found.
+
+    questioncache -s
+    questioncache --send
+        Send the last asked question to llm's default model unless that _exact_
+        question has an answer in the cache.
+
+    questioncache -l
+    questioncache --last
+        Print the last question that was asked.
+
+    questioncache -i
+    questioncache --import 
+       Import questions and answers from STDIN (as JSON objects with "question"
+       and "answer" keys).
+"""
+    print(USAGE)
     sys.exit(0)
 
 
