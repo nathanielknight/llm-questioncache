@@ -1,0 +1,68 @@
+name: Publish Package
+
+on:
+  release:
+    types: [created]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{matrix.python-version}}
+
+      - name: Install dependencies
+        run: |
+          uv sync --frozen
+          uv run pip install -e .
+
+      # Cache Python packages
+      - name: Cache Python packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/uv
+          key: ${{ runner.os }}-uv-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+
+      # Cache test-llm-user-dir
+      - name: Cache test directory
+        uses: actions/cache@v4
+        with:
+          path: test-llm-user-dir
+          key: ${{ runner.os }}-test-dir-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-test-dir-
+
+      - name: Run tests
+        run: |
+          pytest -vv
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: [test]
+    environment: publish
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Install dependencies
+        run: |
+          uv sync --frozen
+      - name: Build
+        run: |
+          uv build
+      - name: publish
+        uses: pypa/gh-action-pypi-publish@release/v1
+
