@@ -3,7 +3,7 @@ name = "llm-questioncache"
 version = "0.1.0"
 description = "A cacheing CLI for quickly asking questions of LLMs"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
     "llm>=0.16",
     "sqlite-utils>=3.37",
