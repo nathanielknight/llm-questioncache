@@ -20,6 +20,7 @@ qc = "llm_questioncache"
 
 [tool.uv]
 dev-dependencies = [
-    "black>=24.10.0",
+    "llm-gguf>=0.2",
     "llm-smollm2>=0.1.2",
+ "pytest>=8.3.4",
 ]

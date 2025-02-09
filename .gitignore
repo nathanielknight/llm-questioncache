@@ -1,2 +1,4 @@
 **/__pycache__/
 **/.mypy_cache/
+
+test-llm-user-dir
