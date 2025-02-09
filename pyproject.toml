@@ -1,21 +1,25 @@
 [project]
-name = "questioncache"
+name = "llm-questioncache"
 version = "0.1.0"
 description = "A cacheing CLI for quickly asking questions of LLMs"
 readme = "README.md"
-requires-python = "==3.12"
+requires-python = ">=3.9"
 dependencies = [
     "llm>=0.16",
-    "rich>=13.9.3",
     "sqlite-utils>=3.37",
-    "appdirs>=1.4.4",
+    "click",
+    "click-default-group>=1.2.4",
 ]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[project.entry-points.llm]
+qc = "llm_questioncache"
+
 [tool.uv]
 dev-dependencies = [
     "black>=24.10.0",
+    "llm-smollm2>=0.1.2",
 ]
